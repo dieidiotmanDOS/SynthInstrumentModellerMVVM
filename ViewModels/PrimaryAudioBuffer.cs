@@ -4,13 +4,6 @@ using Tone = SynthInstrumentModellerMVVM.Models.Tone;
 
 namespace SynthInstrumentModellerMVVM.ViewModels;
 
-// TODO:
-//      Make a Tone class >Frequency, >"Harmonics" >IsActive > phase
-// TODO: 
-//      Tone Activation/Deactivation
-// TODO:
-//      Wave Combinator
-
 public class PrimaryAudioBuffer() : WaveProvider32(AudioSampleRate, 1)
 {
     private const int MaxPolyphony = 12;
