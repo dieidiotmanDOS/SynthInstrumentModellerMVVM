@@ -3,20 +3,46 @@
         xmlns:vm="using:SynthInstrumentModellerMVVM.ViewModels"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:behaviours="using:SynthInstrumentModellerMVVM.Models.Behaviours"
+        xmlns:i="clr-namespace:Avalonia.Xaml.Interactivity;assembly=Avalonia.Xaml.Interactivity"
+        xmlns:ia="clr-namespace:Avalonia.Xaml.Interactions.Core;assembly=Avalonia.Xaml.Interactions"
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
         x:Class="SynthInstrumentModellerMVVM.Views.MainWindow"
         x:DataType="vm:MainViewModel"
         Icon="/Assets/avalonia-logo.ico"
         Title="SynthInstrumentModellerMVVM">
-
-    <Design.DataContext>
-        <!-- This only sets the DataContext for the previewer in an IDE,
-             to set the actual DataContext for runtime, set the DataContext property in code (look at App.axaml.cs) -->
-        <vm:MainViewModel />
-    </Design.DataContext>
-
-    <TextBox Text="{Binding Greeting}"
-             HorizontalAlignment="Center"
-             VerticalAlignment="Center" />
-
+    
+    <Interaction.Behaviors>
+        
+        <EventTriggerBehavior EventName="KeyDown">
+            <InvokeCommandAction Command="{Binding _InputHandler.KeyDownCommand}" PassEventArgsToCommand="True"/>
+        </EventTriggerBehavior>
+        
+        <EventTriggerBehavior EventName="KeyUp">
+            <InvokeCommandAction Command="{Binding _InputHandler.KeyUpCommand}" PassEventArgsToCommand="True"/>
+        </EventTriggerBehavior>
+        
+    </Interaction.Behaviors>
+    
+    <ItemsControl ItemsSource="{Binding KeyboardKeys}">
+        <ItemsControl.ItemsPanel>
+            <ItemsPanelTemplate>
+                <StackPanel Orientation="Horizontal"/>
+            </ItemsPanelTemplate>
+        </ItemsControl.ItemsPanel>
+        <ItemsControl.ItemTemplate>
+            <DataTemplate>
+                <behaviours:PressReleaseButton Content="{Binding Label}"
+                                    Tag="{Binding Frequency}"
+                                    PressCommand="{Binding PressCommand}"
+                                    CommandParameter="{Binding RelativeSource={RelativeSource Self}, Path=Tag}"
+                                    ReleaseCommand="{Binding ReleaseCommand}">
+                                    
+                    
+                    
+                </behaviours:PressReleaseButton>
+                        
+            </DataTemplate>
+        </ItemsControl.ItemTemplate>
+    </ItemsControl>
 </Window>
